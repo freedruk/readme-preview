@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/freedruk/readme-preview/compare/v1.0.0...v1.0.1) (2026-02-18)
+
+
+### Bug Fixes
+
+* added released type ([fabf29f](https://github.com/freedruk/readme-preview/commit/fabf29f30d8d1fcd79eccc24b1125b5231ed7e11))
+
 ## 1.0.0 (2026-02-18)
 
 
