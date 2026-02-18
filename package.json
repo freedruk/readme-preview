@@ -1,6 +1,6 @@
 {
   "name": "readme-preview",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "Preview and validate how your README renders on npm and GitHub before publishing.",
   "license": "MIT",
   "type": "module",
@@ -37,12 +37,15 @@
     "init": "node ./bin/readme-preview.js init",
     "prepack": "node -e \"console.log('packing readme-preview…')\""
   },
-  "files": ["bin", "src"],
+  "files": [
+    "bin",
+    "src"
+  ],
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-   "marked": "^13.0.0",
+    "marked": "^13.0.0",
     "open": "^10.1.0",
     "sanitize-html": "^2.13.0"
   }
