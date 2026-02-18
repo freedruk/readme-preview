@@ -1,0 +1,49 @@
+{
+  "name": "readme-preview",
+  "version": "0.5.0",
+  "description": "Preview and validate how your README renders on npm and GitHub before publishing.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "readme-preview": "./bin/readme-preview.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "readme",
+    "preview",
+    "markdown",
+    "npm",
+    "github",
+    "lint",
+    "documentation",
+    "cli"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/freedruk/readme-preview.git"
+  },
+  "bugs": {
+    "url": "https://github.com/freedruk/readme-preview/issues"
+  },
+  "homepage": "https://github.com/freedruk/readme-preview#readme",
+  "scripts": {
+    "dev": "node ./bin/readme-preview.js",
+    "preview": "node ./bin/readme-preview.js",
+    "check": "node ./bin/readme-preview.js check",
+    "check:strict": "node ./bin/readme-preview.js check --strict",
+    "build": "node ./bin/readme-preview.js build",
+    "init": "node ./bin/readme-preview.js init",
+    "prepack": "node -e \"console.log('packing readme-preview…')\""
+  },
+  "files": ["bin", "src"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+   "marked": "^13.0.0",
+    "open": "^10.1.0",
+    "sanitize-html": "^2.13.0"
+  }
+}

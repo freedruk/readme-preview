@@ -1,0 +1,9 @@
+{
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "readme-preview",
+      "changelog-path": "CHANGELOG.md"
+    }
+  }
+}
