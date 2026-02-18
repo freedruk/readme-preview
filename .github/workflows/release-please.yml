@@ -15,4 +15,6 @@ jobs:
       - uses: googleapis/release-please-action@v4
         with:
           release-type: node
-          package-name: readme-preview
+          # optional but recommended if you use manifests:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
