@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/freedruk/readme-preview/compare/v1.0.1...v1.0.2) (2026-02-18)
+
+
+### Bug Fixes
+
+* updates to package.json ([2f0795d](https://github.com/freedruk/readme-preview/commit/2f0795de3ea3cc979d774bf807ffb64507f9a805))
+
 ## [1.0.1](https://github.com/freedruk/readme-preview/compare/v1.0.0...v1.0.1) (2026-02-18)
 
 
