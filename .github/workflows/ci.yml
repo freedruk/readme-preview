@@ -41,23 +41,17 @@ jobs:
         run: |
           TAR=$(npm --silent pack | tail -n1)
           echo "Packed: $TAR"
-          mkdir -p extracted
-          tar -xzf "$TAR" -C extracted
-          ls -la extracted/package || true
-          echo "EXTRACTED=extracted/package" >> $GITHUB_ENV
+          echo "TAR=$TAR" >> $GITHUB_ENV
 
-      - name: Check README against packaged release
+      - name: Verify packaged install
         run: |
-          node ./bin/readme-preview.js check --strict --file "$EXTRACTED/README.md"
-
-      - name: Upload test log
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-output
-          path: test-output.txt
-
-      - name: Upload packed artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: packed-tarball
-          path: "*.tgz"
+          # create a fresh project and install the packed tarball to verify publish behavior
+          mkdir verify
+          pushd verify
+          npm init -y
+          npm install ../"$TAR"
+          echo "Installed package contents:"
+          ls -la node_modules/readme-preview || true
+          # run the check against the README inside the installed package
+          npx readme-preview check --strict --file node_modules/readme-preview/README.md
+          popd
