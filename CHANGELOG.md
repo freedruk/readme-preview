@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/freedruk/readme-preview/compare/v1.0.2...v1.0.3) (2026-02-19)
+
+
+### Bug Fixes
+
+* remove blank space ([4c1d9d3](https://github.com/freedruk/readme-preview/commit/4c1d9d33933f0e6cc3f96f9503e3b0c96b62861f))
+
 ## [1.0.2](https://github.com/freedruk/readme-preview/compare/v1.0.1...v1.0.2) (2026-02-18)
 
 
