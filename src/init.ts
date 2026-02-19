@@ -1,8 +1,38 @@
-// src/init.js
+// src/init.ts
 import { mkdirSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-function readJsonSafe(path) {
+interface PackageJson {
+  repository?: string | { url: string };
+  version?: string;
+  [key: string]: unknown;
+}
+
+interface RepoSlug {
+  owner: string;
+  name: string;
+}
+
+interface WriteResult {
+  written: boolean;
+  reason?: string;
+}
+
+interface PatchResult {
+  updated: boolean;
+  content: string;
+}
+
+interface InitOptions {
+  cwd: string;
+  force: boolean;
+  workflowOnly: boolean;
+  readmeOnly: boolean;
+  addAssets: boolean;
+  workflowName: string;
+}
+
+function readJsonSafe(path: string): PackageJson | null {
   try {
     return JSON.parse(readFileSync(path, "utf8"));
   } catch {
@@ -10,19 +40,25 @@ function readJsonSafe(path) {
   }
 }
 
-function ensureDir(path) {
+function ensureDir(path: string): void {
   mkdirSync(path, { recursive: true });
 }
 
-function writeFileSafe(path, content, { force }) {
+function writeFileSafe(
+  path: string,
+  content: string,
+  { force }: { force: boolean },
+): WriteResult {
   if (existsSync(path) && !force) return { written: false, reason: "exists" };
   writeFileSync(path, content, "utf8");
   return { written: true };
 }
 
-function guessRepoSlugFromPackageJson(cwd) {
+function guessRepoSlugFromPackageJson(cwd: string): RepoSlug {
   const pkg = readJsonSafe(join(cwd, "package.json"));
-  const repo = pkg?.repository?.url || pkg?.repository;
+  const repo = pkg?.repository && typeof pkg.repository === "object"
+    ? pkg.repository.url
+    : pkg?.repository;
   if (!repo) return { owner: "YOUR_USERNAME", name: "YOUR_REPO" };
 
   const m = String(repo).match(/github\.com[:/](.+?)\/(.+?)(\.git)?$/);
@@ -30,7 +66,7 @@ function guessRepoSlugFromPackageJson(cwd) {
   return { owner: m[1], name: m[2] };
 }
 
-function workflowYaml({ workflowName }) {
+function workflowYaml({ workflowName }: { workflowName: string }): string {
   return `name: ${workflowName}
 
 on:
@@ -60,7 +96,7 @@ jobs:
 `;
 }
 
-function readmePatchBlock({ owner, name }) {
+function readmePatchBlock({ owner, name }: RepoSlug): string {
   // No markdown fences here; caller inserts into README as plain text.
   return [
     "",
@@ -98,7 +134,11 @@ function readmePatchBlock({ owner, name }) {
   ].join("\n");
 }
 
-function addSectionIfMissing(readme, marker, block) {
+function addSectionIfMissing(
+  readme: string,
+  marker: string,
+  block: string,
+): PatchResult {
   if (readme.includes(marker)) return { updated: false, content: readme };
   // Insert after first H1 + optional first paragraph; simplest: append.
   return { updated: true, content: readme.trimEnd() + "\n" + block };
@@ -133,7 +173,7 @@ export async function runInit({
   readmeOnly,
   addAssets,
   workflowName,
-}) {
+}: InitOptions): Promise<void> {
   const repo = guessRepoSlugFromPackageJson(cwd);
 
   const workflowPath = join(cwd, ".github", "workflows", "readme-preview.yml");

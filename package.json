@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/freedruk/readme-preview#readme",
   "scripts": {
+    "ts:build": "tsc",
     "dev": "node ./bin/readme-preview.js",
     "preview": "node ./bin/readme-preview.js",
     "check": "node ./bin/readme-preview.js check",
@@ -48,5 +49,10 @@
     "marked": "^13.0.0",
     "open": "^10.1.0",
     "sanitize-html": "^2.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.0",
+    "@types/sanitize-html": "^2.16.0",
+    "typescript": "^5.3.0"
   }
 }
