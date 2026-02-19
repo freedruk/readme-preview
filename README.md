@@ -277,7 +277,7 @@ This tool lets you:
 - Provide **working screenshots & links**
 - Bootstrap **professional README structure instantly**
 
-All in a **tiny CLI** with **no config** .
+All in a **tiny CLI** with **no config**.
 
 ---
 
