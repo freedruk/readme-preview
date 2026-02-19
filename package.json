@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/freedruk/readme-preview#readme",
   "scripts": {
-    "ts:build": "tsc",
+    "ts:build": "esbuild bin/readme-preview.ts src/**/*.ts --outdir=. --minify --sourcemap=external",
     "dev": "node ./bin/readme-preview.js",
     "preview": "node ./bin/readme-preview.js",
     "check": "node ./bin/readme-preview.js check",
@@ -39,8 +39,11 @@
     "prepack": "node -e \"console.log('packing readme-preview…')\""
   },
   "files": [
-    "bin",
-    "src"
+    "bin/readme-preview.js",
+    "src/check.js",
+    "src/init.js",
+    "src/render.js",
+    "src/server.js"
   ],
   "publishConfig": {
     "access": "public"
@@ -53,6 +56,7 @@
   "devDependencies": {
     "@types/node": "^25.3.0",
     "@types/sanitize-html": "^2.16.0",
+    "esbuild": "^0.20.0",
     "typescript": "^5.3.0"
   }
 }

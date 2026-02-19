@@ -1,0 +1,9 @@
+*.ts
+*.map
+*.d.ts
+*.d.js
+.DS_Store
+tsconfig.json
+node_modules/
+.git/
+.github/
