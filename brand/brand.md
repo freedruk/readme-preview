@@ -56,7 +56,7 @@ Don’t:
 
 ## Assets
 
-- `assets/logo.svg` — icon
+- `assets/logo.svg` — ic on
 - `assets/wordmark.svg` — logotype
 - `assets/favicon.svg` — favicon
 - `assets/hero.html` — minimal hero snippet
