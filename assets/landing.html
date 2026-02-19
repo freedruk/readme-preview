@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      readme-preview - Preview & Validate READMEs for npm Before Publishing
+    </title>
+    <meta
+      name="description"
+      content="Preview, lint, and validate your README rendering on npm and GitHub before publishing. Rewrite relative assets, enforce doc quality in CI, and automate README checks. Free open-source CLI tool."
+    />
+    <meta
+      name="keywords"
+      content="readme, preview, npm, documentation, linter, markdown, ci, github, quality checks, validation"
+    />
+    <meta name="author" content="readme-preview contributors" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://github.com/freedruk/readme-preview"
+    />
+    <meta
+      property="og:title"
+      content="readme-preview - Preview & Validate READMEs Before Publishing"
+    />
+    <meta
+      property="og:description"
+      content="Free CLI tool to preview README rendering, rewrite relative assets, and enforce documentation quality in CI."
+    />
+    <meta property="og:image" content="/assets/og-image.png" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://github.com/freedruk/readme-preview"
+    />
+    <meta
+      property="twitter:title"
+      content="readme-preview - Preview & Validate READMEs Before Publishing"
+    />
+    <meta
+      property="twitter:description"
+      content="Free CLI tool to preview README rendering, rewrite relative assets, and enforce documentation quality in CI."
+    />
+    <meta property="twitter:image" content="/assets/og-image.png" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://github.com/freedruk/readme-preview" />
+
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://www.npmjs.com" />
+    <link rel="dns-prefetch" href="https://www.npmjs.com" />
+
+    <style>
+      :root {
+        --ink: #111111;
+        --red: #e00000;
+        --muted: #64748b;
+        --border: #e2e8f0;
+        --bg: #ffffff;
+        --mono:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        --sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--sans);
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 54px 20px 70px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo {
+        width: 34px;
+        height: 34px;
+      }
+      .name {
+        font-weight: 900;
+        letter-spacing: -0.01em;
+        margin: 0;
+      }
+      .nav {
+        display: flex;
+        gap: 14px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .nav a {
+        transition: all 0.2s;
+      }
+      .nav a:hover {
+        color: var(--ink);
+        text-decoration: underline;
+        text-decoration-color: rgba(224, 0, 0, 0.35);
+      }
+      @media (max-width: 720px) {
+        .nav {
+          display: none;
+        }
+      }
+      .hero h2 {
+        font-size: 54px;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        margin: 36px 0 12px;
+      }
+      p {
+        margin: 0 0 16px;
+        color: var(--muted);
+        font-size: 17px;
+        max-width: 70ch;
+      }
+      .underline {
+        width: 92px;
+        height: 6px;
+        border-radius: 4px;
+        background: var(--red);
+        margin: 16px 0 18px;
+      }
+      .cmds {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 16px;
+      }
+      .cmd {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-family: var(--mono);
+        font-size: 13px;
+        background: #fff;
+      }
+      .cta {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+      .btn {
+        border: 1px solid var(--border);
+        background: #fff;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-weight: 900;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .btn:hover {
+        border-color: var(--ink);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .btn.primary {
+        border-color: var(--ink);
+        background: var(--ink);
+        color: #fff;
+      }
+      .btn.primary:hover {
+        background: #222;
+      }
+      h2 {
+        font-size: 22px;
+        margin: 48px 0 10px;
+        letter-spacing: -0.01em;
+      }
+      section {
+        margin: 32px 0;
+      }
+      ul {
+        margin: 10px 0 0;
+        padding-left: 18px;
+        color: var(--muted);
+      }
+      li {
+        margin: 7px 0;
+        line-height: 1.8;
+      }
+      .codeblock {
+        margin: 14px 0;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .codeblock .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 13px;
+      }
+      pre {
+        margin: 0;
+        padding: 12px 12px;
+        background: #fff;
+        font-family: var(--mono);
+        font-size: 13px;
+        overflow: auto;
+        line-height: 1.5;
+      }
+      footer {
+        margin-top: 64px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 14px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      a:focus {
+        outline: 2px solid var(--red);
+        outline-offset: 2px;
+      }
+      code {
+        background: #f5f5f5;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: var(--mono);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap" role="main">
+      <header>
+        <div class="brand">
+          <img
+            class="logo"
+            src="logo.svg"
+            alt="readme-preview logo - documentation quality tool"
+            width="34"
+            height="34"
+          />
+          <h1 class="name">readme-preview</h1>
+        </div>
+        <nav class="nav" aria-label="Primary navigation">
+          <a href="#features">Features</a>
+          <a href="#examples">Examples</a>
+          <a href="#ci">CI Setup</a>
+          <a
+            href="https://github.com/freedruk/readme-preview"
+            target="_blank"
+            rel="noreferrer noopener"
+            >GitHub</a
+          >
+        </nav>
+      </header>
+
+      <section class="hero" aria-labelledby="hero-title">
+        <h2 id="hero-title">Docs that don't break on npm.</h2>
+        <div class="underline" aria-hidden="true"></div>
+        <p>
+          Preview your README, rewrite relative assets (and optionally links),
+          and enforce doc quality in CI —
+          <strong>before you publish</strong>.
+        </p>
+
+        <div class="cmds" aria-label="Core commands">
+          <code class="cmd">npx readme-preview</code>
+          <code class="cmd">npx readme-preview check --strict</code>
+          <code class="cmd">npx readme-preview init --assets</code>
+        </div>
+
+        <div class="cta">
+          <button
+            class="btn primary"
+            onclick="copy('npx readme-preview')"
+            title="Copy install command to clipboard"
+          >
+            Copy install
+          </button>
+          <button
+            class="btn"
+            onclick="copy('npx readme-preview check --strict')"
+            title="Copy strict check command"
+          >
+            Copy strict check
+          </button>
+          <a
+            class="btn"
+            href="https://www.npmjs.com/package/readme-preview"
+            target="_blank"
+            rel="noreferrer noopener"
+            >Open on npm</a
+          >
+        </div>
+      </section>
+
+      <section id="features" aria-labelledby="features-title">
+        <h2 id="features-title">What it does</h2>
+        <ul>
+          <li>
+            <strong>Preview</strong> README rendering locally with npm or GitHub
+            theme options
+          </li>
+          <li>
+            <strong>Rewrite</strong> relative images and links so they work
+            outside your repository
+          </li>
+          <li>
+            <strong>Check</strong> documentation quality in CI with strict
+            validation mode
+          </li>
+          <li>
+            <strong>Init</strong> scaffolds GitHub Action workflow, badges, and
+            screenshot section automatically
+          </li>
+        </ul>
+      </section>
+
+      <section id="examples" aria-labelledby="examples-title">
+        <h2 id="examples-title">Common commands</h2>
+
+        <div class="codeblock">
+          <div class="top">
+            <span>Terminal</span>
+            <button
+              class="btn"
+              style="padding: 8px 10px"
+              onclick="copy(cmds)"
+              title="Copy all commands"
+            >
+              Copy
+            </button>
+          </div>
+          <pre id="cmds"></pre>
+        </div>
+      </section>
+
+      <section id="ci" aria-labelledby="ci-title">
+        <h2 id="ci-title">Automate in GitHub Actions</h2>
+        <p>
+          Block broken READMEs at PR time. Add this workflow to automatically
+          check documentation quality on every pull request and push to main.
+        </p>
+
+        <h3 style="font-size: 16px; margin-top: 24px; margin-bottom: 8px">
+          Setup (30 seconds)
+        </h3>
+        <ul style="font-size: 15px">
+          <li>
+            Create <code>.github/workflows/readme-preview.yml</code> in your
+            repository
+          </li>
+          <li>Copy the workflow below</li>
+          <li>Commits triggering broken docs will fail the check</li>
+        </ul>
+
+        <div class="codeblock" style="margin-top: 16px">
+          <div class="top">
+            <span>.github/workflows/readme-preview.yml</span>
+            <button
+              class="btn"
+              style="padding: 8px 10px"
+              onclick="copy(ci)"
+              title="Copy CI workflow"
+            >
+              Copy
+            </button>
+          </div>
+          <pre id="ci-code"></pre>
+        </div>
+
+        <p style="font-size: 14px; color: #64748b; margin-top: 12px">
+          ℹ️ This runs <code>npx readme-preview check --strict</code> on every
+          PR.
+          <a
+            href="https://github.com/freedruk/readme-preview"
+            target="_blank"
+            rel="noreferrer noopener"
+            style="color: #e00000"
+            >See docs for custom rules →</a
+          >
+        </p>
+      </section>
+
+      <footer>
+        <div>Minimal. Reliable. CLI-first.</div>
+        <div>
+          <a href="../brand.md">Brand guide</a> ·
+          <a
+            href="https://www.npmjs.com/package/readme-preview"
+            target="_blank"
+            rel="noreferrer noopener"
+            >npm</a
+          >
+          ·
+          <a
+            href="https://github.com/freedruk/readme-preview"
+            target="_blank"
+            rel="noreferrer noopener"
+            >GitHub</a
+          >
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      const cmds = `npx readme-preview
+npx readme-preview --theme github
+npx readme-preview --branch main --rewrite-links
+npx readme-preview check --strict
+npx readme-preview init --assets`;
+
+      const ci = `name: README Preview Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  readme-preview-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx readme-preview check --strict
+`;
+
+      document.getElementById("cmds").textContent = cmds;
+      document.getElementById("ci-code").textContent = ci;
+
+      async function copy(t) {
+        try {
+          await navigator.clipboard.writeText(t);
+        } catch {
+          const ta = document.createElement("textarea");
+          ta.value = t;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          ta.remove();
+        }
+      }
+    </script>
+  </body>
+</html>

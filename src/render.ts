@@ -1,4 +1,4 @@
-// src/render.js
+// src/render.ts
 import { marked } from "marked";
 import sanitizeHtml from "sanitize-html";
 import { readFileSync } from "node:fs";
@@ -6,11 +6,27 @@ import { join } from "node:path";
 
 marked.setOptions({ gfm: true });
 
-function ensureSlash(url) {
+interface RewriteOptions {
+  cwd: string;
+  branch: string;
+  baseUrl: string | null;
+  rewriteLinks: boolean;
+}
+
+interface RenderOptions {
+  cwd?: string;
+  branch?: string;
+  baseUrl?: string | null;
+  rewriteLinks?: boolean;
+  title?: string;
+  theme?: string;
+}
+
+function ensureSlash(url: string | null ): string | null {
   return url && !url.endsWith("/") ? url + "/" : url;
 }
 
-function getGithubRawBase(cwd, branch) {
+function getGithubRawBase(cwd: string, branch: string): string | null {
   try {
     const pkg = JSON.parse(readFileSync(join(cwd, "package.json"), "utf8"));
     const repo = pkg.repository?.url || pkg.repository;
@@ -26,7 +42,10 @@ function getGithubRawBase(cwd, branch) {
   }
 }
 
-function rewriteAssets(md, { cwd, branch, baseUrl, rewriteLinks }) {
+function rewriteAssets(
+  md: string,
+  { cwd, branch, baseUrl, rewriteLinks }: RewriteOptions,
+): string {
   const base = ensureSlash(baseUrl) || getGithubRawBase(cwd, branch);
   if (!base) return md;
 
@@ -82,13 +101,13 @@ const THEME_GITHUB = `
   blockquote { margin: 0; padding-left: 16px; border-left: 4px solid rgba(127,127,127,.35); }
 `;
 
-function pickTheme(theme) {
+function pickTheme(theme: string): string {
   const t = String(theme || "").toLowerCase();
   if (t === "github") return THEME_GITHUB;
   return THEME_NPM;
 }
 
-export function renderReadmeHtml(markdown, opts = {}) {
+export function renderReadmeHtml(markdown: string, opts: RenderOptions = {}): string {
   const {
     cwd = process.cwd(),
     branch = "HEAD",
@@ -101,10 +120,10 @@ export function renderReadmeHtml(markdown, opts = {}) {
   const processed = rewriteAssets(markdown, {
     cwd,
     branch,
-    baseUrl,
+    baseUrl: baseUrl === undefined ? null : baseUrl,
     rewriteLinks,
   });
-  const raw = marked.parse(processed);
+  const raw = marked.parse(processed) as string;
 
   const safe = sanitizeHtml(raw, {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat([

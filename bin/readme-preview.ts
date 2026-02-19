@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-function getVersion() {
+function getVersion(): string {
   try {
     const pkg = JSON.parse(
       readFileSync(join(__dirname, "../package.json"), "utf8"),
@@ -20,11 +20,11 @@ function getVersion() {
   }
 }
 
-async function main() {
+async function main(): Promise<void> {
   const args = process.argv.slice(2);
 
-  const has = (f) => args.includes(f);
-  const get = (name, fallback) => {
+  const has = (f: string): boolean => args.includes(f);
+  const get = (name: string, fallback: unknown) => {
     const i = args.indexOf(name);
     if (i === -1) return fallback;
     const v = args[i + 1];
@@ -61,7 +61,7 @@ async function main() {
 
   /* ---------- LOAD FILE ---------- */
 
-  const file = resolve(process.cwd(), get("--file", "README.md"));
+  const file = resolve(process.cwd(), String(get("--file", "README.md")));
   const port = Number(get("--port", "4173"));
   const noOpen = Boolean(get("--no-open", false));
   const title = String(get("--title", "README Preview"));
@@ -71,7 +71,7 @@ async function main() {
   const rewriteLinks = has("--rewrite-links");
   const strict = has("--strict");
 
-  let md;
+  let md: string;
   try {
     md = readFileSync(file, "utf8");
   } catch {
@@ -102,7 +102,7 @@ async function main() {
     cwd: process.cwd(),
     theme,
     branch,
-    baseUrl: baseUrl === true ? null : baseUrl,
+    baseUrl: baseUrl === true ? null : baseUrl as string,
     rewriteLinks,
   });
 
@@ -129,7 +129,7 @@ async function main() {
 
 /* ---------- HELP TEXT ---------- */
 
-function printHelp() {
+function printHelp(): void {
   console.log(`
 readme-preview
 
@@ -176,7 +176,7 @@ Examples:
 
 /* ---------- RUN ---------- */
 
-main().catch((err) => {
+main().catch((err: unknown) => {
   console.error("❌ Unexpected error:");
   console.error(err);
   process.exit(1);

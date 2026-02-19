@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>readme-preview — Hero</title>
+  <style>
+    :root{
+      --ink:#111111; --red:#E00000; --muted:#64748B; --border:#E2E8F0; --bg:#FFFFFF;
+      --mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    }
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);}
+    .wrap{max-width:900px;margin:0 auto;padding:64px 20px;}
+    .top{display:flex;gap:14px;align-items:center;}
+    .logo{width:44px;height:44px}
+    h1{font-size:52px;line-height:1.05;letter-spacing:-0.02em;margin:18px 0 12px;}
+    p{margin:0 0 18px;color:var(--muted);font-size:18px;max-width:65ch}
+    .underline{width:92px;height:6px;border-radius:4px;background:var(--red);margin:16px 0 18px;}
+    .cmds{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+    .cmd{border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:var(--mono);font-size:13px;background:#fff}
+    .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .btn{border:1px solid var(--border);background:#fff;border-radius:10px;padding:10px 14px;font-weight:900;cursor:pointer}
+    .btn.primary{border-color:var(--ink);background:var(--ink);color:#fff}
+    .note{margin-top:12px;color:var(--muted);font-size:13px}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="top">
+      <img class="logo" src="logo.svg" alt="readme-preview logo" />
+      <div style="font-weight:900;letter-spacing:-0.01em">readme-preview</div>
+    </div>
+
+    <h1>Docs that don’t break on npm.</h1>
+    <div class="underline"></div>
+    <p>
+      Preview your README, rewrite relative assets/links, and enforce doc quality in CI — <strong>before you publish</strong>.
+    </p>
+
+    <div class="cmds" aria-label="Core commands">
+      <div class="cmd">npx readme-preview</div>
+      <div class="cmd">npx readme-preview check --strict</div>
+      <div class="cmd">npx readme-preview init --assets</div>
+    </div>
+
+    <div class="cta">
+      <button class="btn primary" onclick="copy('npx readme-preview')">Copy install</button>
+      <button class="btn" onclick="copy('npx readme-preview check --strict')">Copy strict check</button>
+    </div>
+
+    <div class="note">Tiny CLI · Node 18+ · Zero config</div>
+  </main>
+
+  <script>
+    async function copy(t){
+      try{ await navigator.clipboard.writeText(t); }
+      catch{
+        const ta=document.createElement('textarea');
+        ta.value=t; document.body.appendChild(ta);
+        ta.select(); document.execCommand('copy'); ta.remove();
+      }
+    }
+  </script>
+</body>
+</html>

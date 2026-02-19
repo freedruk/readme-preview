@@ -1,7 +1,11 @@
-// src/check.js
-export function runChecks(md) {
-  const issues = [];
-  const strictIssues = [];
+interface CheckResult {
+  issues: string[];
+  strictIssues: string[];
+}
+
+export function runChecks(md: string): CheckResult {
+  const issues: string[] = [];
+  const strictIssues: string[] = [];
 
   // 1) Strip fenced code blocks and inline code so examples don't trigger lint rules
   const withoutFences = stripFencedCode(md);
@@ -96,12 +100,12 @@ export function runChecks(md) {
   return { issues, strictIssues };
 }
 
-function stripFencedCode(s) {
+function stripFencedCode(s: string): string {
   // remove ```...``` blocks (including language)
   return s.replace(/```[\s\S]*?```/g, "");
 }
 
-function stripInlineCode(s) {
+function stripInlineCode(s: string): string {
   // remove `inline code`
   return s.replace(/`[^`]*`/g, "");
 }

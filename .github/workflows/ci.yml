@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build package
+        run: npm run ts:build
+
+      - name: Run tests
+        run: |
+          FILES=$(find test -type f -name "*.test.ts" -print | tr '\n' ' ')
+          if [ -z "$FILES" ]; then
+            echo "No test files found"; exit 1
+          fi
+          node --import tsx --test $FILES 2>&1 | tee test-output.txt
+
+      - name: Run README strict checks (workspace)
+        run: npm run check:strict
+
+      - name: Pack release artifact
+        run: |
+          TAR=$(npm --silent pack | tail -n1)
+          echo "Packed: $TAR"
+          echo "TAR=$TAR" >> $GITHUB_ENV
+
+      - name: Verify packaged install
+        run: |
+          # create a fresh project and install the packed tarball to verify publish behavior
+          mkdir verify
+          pushd verify
+          npm init -y
+          npm install ../"$TAR"
+          echo "Installed package contents:"
+          ls -la node_modules/readme-preview || true
+          # run the check against the README inside the installed package
+          npx readme-preview check --strict --file node_modules/readme-preview/README.md
+          popd
