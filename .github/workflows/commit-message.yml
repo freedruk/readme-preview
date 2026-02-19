@@ -25,11 +25,12 @@ jobs:
             echo "PR title is empty; cannot validate prefix."; exit 1
           fi
 
-          # Allowed prefixes (followed by a colon and a space):
-          # fix:, feat:, chore:, docs:, refactor:, perf:, test:, style:, ci:, build:, patch:, hotfix:
-          if ! echo "$PR_TITLE" | grep -E -q '^(fix|feat|chore|docs|refactor|perf|test|style|ci|build|patch|hotfix):[[:space:]]+'; then
+          # Allowed prefixes (followed by a colon and a space).
+          # Includes conventional commit types used by release-please:
+          # fix:, feat:, perf:, refactor:, docs:, chore:, style:, test:, build:, ci:, revert:, release:, deps:, patch:, hotfix:
+          if ! echo "$PR_TITLE" | grep -E -q '^(fix|feat|perf|refactor|docs|chore|style|test|build|ci|revert|release|deps|patch|hotfix):[[:space:]]+'; then
             echo "Invalid PR title prefix: '$PR_TITLE'"
-            echo "Please start PR title with one of: fix:, feat:, chore:, docs:, refactor:, perf:, test:, style:, ci:, build:, patch:, hotfix:" 
+            echo "Please start PR title with one of: fix:, feat:, perf:, refactor:, docs:, chore:, style:, test:, build:, ci:, revert:, release:, deps:, patch:, hotfix:" 
             exit 1
           fi
 
