@@ -36,7 +36,7 @@
     "check:strict": "node ./bin/readme-preview.js check --strict",
     "build": "node ./bin/readme-preview.js build",
     "init": "node ./bin/readme-preview.js init",
-    "test": "node --import tsx --test test/**/*.test.ts",
+    "test": "node --import tsx --test \"test/**/*.test.ts\"",
     "prepack": "node -e \"console.log('packing readme-preview…')\""
   },
   "files": [

@@ -27,10 +27,32 @@ jobs:
         run: npm run ts:build
 
       - name: Run tests
-        run: npm test
+        run: npm test 2>&1 | tee test-output.txt
 
-      - name: Run README strict checks
+      - name: Run README strict checks (workspace)
         run: npm run check:strict
 
-      - name: Verify release assets
-        run: npm pack --dry-run
+      - name: Pack release artifact
+        run: |
+          TAR=$(npm pack)
+          echo "Packed: $TAR"
+          mkdir -p extracted
+          tar -xzf "$TAR" -C extracted
+          ls -la extracted/package || true
+          echo "EXTRACTED=extracted/package" >> $GITHUB_ENV
+
+      - name: Check README against packaged release
+        run: |
+          node ./bin/readme-preview.js check --strict --file "$EXTRACTED/README.md"
+
+      - name: Upload test log
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-output
+          path: test-output.txt
+
+      - name: Upload packed artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: packed-tarball
+          path: "*.tgz"
