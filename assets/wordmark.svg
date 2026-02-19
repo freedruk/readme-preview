@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="220" viewBox="0 0 920 220" role="img" aria-label="readme-preview wordmark">
+  <rect width="920" height="220" fill="none"/>
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-weight="800">
+    <text x="24" y="132" font-size="78" fill="#111111">readme</text>
+    <text x="286" y="132" font-size="78" fill="#111111">-</text>
+    <text x="330" y="132" font-size="78" fill="#111111">preview</text>
+  </g>
+  <rect x="24" y="156" width="372" height="8" rx="4" fill="#E00000"/>
+  <g font-family="ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace" font-size="18" fill="#475569">
+    <text x="24" y="192">Preview • Lint • Bootstrap • Ship with confidence</text>
+  </g>
+</svg>
