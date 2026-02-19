@@ -5,7 +5,7 @@
 **Docs that don’t break.**  
 Minimal, dependable, CLI-first. The product should feel like a sharp tool: small, obvious, and trustworthy.
 
-## Voice
+## Voi ce
 
 - Confident, not hypey
 - Short sentences
