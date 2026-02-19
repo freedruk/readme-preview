@@ -27,14 +27,19 @@ jobs:
         run: npm run ts:build
 
       - name: Run tests
-        run: npm test 2>&1 | tee test-output.txt
+        run: |
+          FILES=$(find test -type f -name "*.test.ts" -print | tr '\n' ' ')
+          if [ -z "$FILES" ]; then
+            echo "No test files found"; exit 1
+          fi
+          node --import tsx --test $FILES 2>&1 | tee test-output.txt
 
       - name: Run README strict checks (workspace)
         run: npm run check:strict
 
       - name: Pack release artifact
         run: |
-          TAR=$(npm pack)
+          TAR=$(npm --silent pack | tail -n1)
           echo "Packed: $TAR"
           mkdir -p extracted
           tar -xzf "$TAR" -C extracted
