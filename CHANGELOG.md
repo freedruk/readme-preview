@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/freedruk/readme-preview/compare/v1.0.3...v1.0.4) (2026-02-19)
+
+
+### Bug Fixes
+
+* test ([#7](https://github.com/freedruk/readme-preview/issues/7)) ([e9ca858](https://github.com/freedruk/readme-preview/commit/e9ca858b1a2b638609508f0c84ab51161d5e04e6))
+
 ## [1.0.3](https://github.com/freedruk/readme-preview/compare/v1.0.2...v1.0.3) (2026-02-19)
 
 
