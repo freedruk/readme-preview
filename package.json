@@ -36,6 +36,7 @@
     "check:strict": "node ./bin/readme-preview.js check --strict",
     "build": "node ./bin/readme-preview.js build",
     "init": "node ./bin/readme-preview.js init",
+    "test": "node --import tsx --test test/**/*.test.ts",
     "prepack": "node -e \"console.log('packing readme-preview…')\""
   },
   "files": [
@@ -57,6 +58,7 @@
     "@types/node": "^25.3.0",
     "@types/sanitize-html": "^2.16.0",
     "esbuild": "^0.20.0",
+    "tsx": "^4.7.0",
     "typescript": "^5.3.0"
   }
 }
