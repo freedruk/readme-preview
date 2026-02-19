@@ -1,6 +1,6 @@
 {
   "name": "readme-preview",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Preview and validate how your README renders on npm and GitHub before publishing.",
   "license": "MIT",
   "type": "module",
