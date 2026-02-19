@@ -3,6 +3,7 @@ interface CheckResult {
   strictIssues: string[];
 }
 
+
 export function runChecks(md: string): CheckResult {
   const issues: string[] = [];
   const strictIssues: string[] = [];
